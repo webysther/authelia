@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mailcatcher-ingress
@@ -16,7 +16,10 @@ spec:
       http:
         paths:
           - path: /
+            pathType: ImplementationSpecific
             backend:
-              serviceName: mailcatcher-service
-              servicePort: 1080
+              service:
+                name: mailcatcher-service
+                port:
+                  number: 1080
 ...
