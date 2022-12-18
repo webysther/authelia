@@ -84,18 +84,6 @@ func (s *CLISuite) TestShouldFailValidateConfig() {
 	s.Assert().Contains(output, "failed to load configuration from yaml file(/config/invalid.yml) source: open /config/invalid.yml: no such file or directory")
 }
 
-func (s *CLISuite) TestShouldHashPasswordArgon2idLegacy() {
-	output, err := s.Exec("authelia-backend", []string{"authelia", s.testArg, s.coverageArg, "hash-password", "test", "-m", "32"})
-	s.Assert().NoError(err)
-	s.Assert().Contains(output, "Digest: $argon2id$v=19$m=32768,t=3,p=4$")
-}
-
-func (s *CLISuite) TestShouldHashPasswordSHA512Legacy() {
-	output, err := s.Exec("authelia-backend", []string{"authelia", s.testArg, s.coverageArg, "hash-password", "test", "-z"})
-	s.Assert().NoError(err)
-	s.Assert().Contains(output, "Digest: $6$rounds=50000")
-}
-
 func (s *CLISuite) TestShouldHashPasswordArgon2() {
 	var (
 		output string

@@ -3,31 +3,74 @@ package configuration
 import (
 	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/confmap"
 	"github.com/knadh/koanf/providers/env"
-	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/providers/posflag"
 	"github.com/spf13/pflag"
 
 	"github.com/authelia/authelia/v4/internal/configuration/schema"
 )
 
-// NewYAMLFileSource returns a Source configured to load from a specified YAML path. If there is an issue accessing this
-// path it also returns an error.
-func NewYAMLFileSource(path string) (source *YAMLFileSource) {
-	return &YAMLFileSource{
+// NewFileSource returns a configuration.Source configured to load from a specified YAML path. If there is an issue
+// accessing this path it also returns an error.
+func NewFileSource(path string) (source *FileSource) {
+	return &FileSource{
 		koanf: koanf.New(constDelimiter),
 		path:  path,
 	}
 }
 
-// NewYAMLFileSources returns a slice of Source configured to load from specified YAML files.
-func NewYAMLFileSources(paths []string) (sources []*YAMLFileSource) {
+// NewFilteredFileSource returns a configuration.Source configured to load from a specified YAML path. If there is
+// an issue accessing this path it also returns an error.
+func NewFilteredFileSource(path string, filters ...FileFilter) (source *FileSource) {
+	return &FileSource{
+		koanf:   koanf.New(constDelimiter),
+		path:    path,
+		filters: filters,
+	}
+}
+
+// NewDirectorySource returns a configuration.Source configured to load from a specified directory. If there is an issue
+// accessing this path it also returns an error.
+func NewDirectorySource(path string) (source *FileSource) {
+	return &FileSource{
+		koanf:     koanf.New(constDelimiter),
+		directory: true,
+		path:      path,
+	}
+}
+
+// NewFilteredDirectorySource returns a configuration.Source configured to load from a specified directory path. If
+// there is an issue accessing this path it also returns an error.
+func NewFilteredDirectorySource(path string, filters ...FileFilter) (source *FileSource) {
+	return &FileSource{
+		koanf:     koanf.New(constDelimiter),
+		path:      path,
+		directory: true,
+		filters:   filters,
+	}
+}
+
+// NewFileSources returns a slice of configuration.Source configured to load from specified YAML files.
+func NewFileSources(paths []string) (sources []*FileSource) {
 	for _, path := range paths {
-		source := NewYAMLFileSource(path)
+		source := NewFileSource(path)
+
+		sources = append(sources, source)
+	}
+
+	return sources
+}
+
+// NewFilteredFileSources returns a slice of configuration.Source configured to load from specified YAML files.
+func NewFilteredFileSources(paths []string, filters []FileFilter) (sources []*FileSource) {
+	for _, path := range paths {
+		source := NewFilteredFileSource(path, filters...)
 
 		sources = append(sources, source)
 	}
@@ -36,22 +79,55 @@ func NewYAMLFileSources(paths []string) (sources []*YAMLFileSource) {
 }
 
 // Name of the Source.
-func (s *YAMLFileSource) Name() (name string) {
+func (s *FileSource) Name() (name string) {
 	return fmt.Sprintf("yaml file(%s)", s.path)
 }
 
-// Merge the YAMLFileSource koanf.Koanf into the provided one.
-func (s *YAMLFileSource) Merge(ko *koanf.Koanf, _ *schema.StructValidator) (err error) {
+// Merge the FileSource koanf.Koanf into the provided one.
+func (s *FileSource) Merge(ko *koanf.Koanf, _ *schema.StructValidator) (err error) {
 	return ko.Merge(s.koanf)
 }
 
-// Load the Source into the YAMLFileSource koanf.Koanf.
-func (s *YAMLFileSource) Load(_ *schema.StructValidator) (err error) {
+// Load the Source into the FileSource koanf.Koanf.
+func (s *FileSource) Load(val *schema.StructValidator) (err error) {
 	if s.path == "" {
-		return errors.New("invalid yaml path source configuration")
+		return errors.New("invalid file path source configuration")
 	}
 
-	return s.koanf.Load(file.Provider(s.path), yaml.Parser())
+	if s.directory {
+		return s.loadDir(val)
+	}
+
+	return s.load(val)
+}
+
+func (s *FileSource) load(_ *schema.StructValidator) (err error) {
+	return s.koanf.Load(FilteredFileProvider(s.path, s.filters...), yaml.Parser())
+}
+
+func (s *FileSource) loadDir(_ *schema.StructValidator) (err error) {
+	var entries []os.DirEntry
+
+	if entries, err = os.ReadDir(s.path); err != nil {
+		return err
+	}
+
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+
+		name := entry.Name()
+
+		switch ext := filepath.Ext(name); ext {
+		case ".yml", ".yaml":
+			if err = s.koanf.Load(FilteredFileProvider(filepath.Join(s.path, name), s.filters...), yaml.Parser()); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 // NewEnvironmentSource returns a Source configured to load from environment variables.
@@ -136,7 +212,7 @@ func (s *CommandLineSource) Merge(ko *koanf.Koanf, val *schema.StructValidator) 
 	return ko.Merge(s.koanf)
 }
 
-// Load the Source into the YAMLFileSource koanf.Koanf.
+// Load the Source into the FileSource koanf.Koanf.
 func (s *CommandLineSource) Load(_ *schema.StructValidator) (err error) {
 	if s.callback != nil {
 		return s.koanf.Load(posflag.ProviderWithFlag(s.flags, ".", s.koanf, s.callback), nil)
@@ -163,33 +239,57 @@ func (s *MapSource) Merge(ko *koanf.Koanf, val *schema.StructValidator) (err err
 	return ko.Merge(s.koanf)
 }
 
-// Load the Source into the YAMLFileSource koanf.Koanf.
+// Load the Source into the FileSource koanf.Koanf.
 func (s *MapSource) Load(_ *schema.StructValidator) (err error) {
 	return s.koanf.Load(confmap.Provider(s.m, constDelimiter), nil)
 }
 
 // NewDefaultSources returns a slice of Source configured to load from specified YAML files.
-func NewDefaultSources(filePaths []string, prefix, delimiter string, additionalSources ...Source) (sources []Source) {
-	fileSources := NewYAMLFileSources(filePaths)
+func NewDefaultSources(filePaths []string, directory string, prefix, delimiter string, additional Sources) (sources []Source) {
+	if len(additional.Pre) != 0 {
+		sources = additional.Pre
+	}
+
+	fileSources := NewFileSources(filePaths)
 	for _, source := range fileSources {
 		sources = append(sources, source)
+	}
+
+	if directory != "" {
+		sources = append(sources, NewDirectorySource(directory))
 	}
 
 	sources = append(sources, NewEnvironmentSource(prefix, delimiter))
 	sources = append(sources, NewSecretsSource(prefix, delimiter))
 
-	if len(additionalSources) != 0 {
-		sources = append(sources, additionalSources...)
+	if len(additional.Post) != 0 {
+		sources = append(sources, additional.Post...)
 	}
 
 	return sources
 }
 
-// NewDefaultSourcesWithDefaults returns a slice of Source configured to load from specified YAML files with additional sources.
-func NewDefaultSourcesWithDefaults(filePaths []string, prefix, delimiter string, defaults Source, additionalSources ...Source) (sources []Source) {
-	sources = []Source{defaults}
+// NewDefaultSourcesFiltered returns a slice of Source configured to load from specified YAML files.
+func NewDefaultSourcesFiltered(files []string, directory string, filters []FileFilter, prefix, delimiter string, additional Sources) (sources []Source) {
+	if len(additional.Pre) != 0 {
+		sources = additional.Pre
+	}
 
-	sources = append(sources, NewDefaultSources(filePaths, prefix, delimiter, additionalSources...)...)
+	fileSources := NewFilteredFileSources(files, filters)
+	for _, source := range fileSources {
+		sources = append(sources, source)
+	}
+
+	if directory != "" {
+		sources = append(sources, NewFilteredDirectorySource(directory, filters...))
+	}
+
+	sources = append(sources, NewEnvironmentSource(prefix, delimiter))
+	sources = append(sources, NewSecretsSource(prefix, delimiter))
+
+	if len(additional.Post) != 0 {
+		sources = append(sources, additional.Post...)
+	}
 
 	return sources
 }

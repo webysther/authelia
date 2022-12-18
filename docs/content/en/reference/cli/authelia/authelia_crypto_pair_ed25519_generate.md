@@ -42,6 +42,14 @@ authelia crypto pair ed25519 generate --help
       --pkcs8                     force PKCS #8 ASN.1 format
 ```
 
+### Options inherited from parent commands
+
+```
+  -c, --config strings                        configuration files to load (default [configuration.yml])
+      --config.directory string               path to a directory with yml/yaml files to load as part of the configuration
+      --config.experimental.filters strings   Applies filters in order to the configuration file before the YAML parser. Options are 'template', 'expand-env'
+```
+
 ### SEE ALSO
 
 * [authelia crypto pair ed25519](authelia_crypto_pair_ed25519.md)	 - Perform Ed25519 key pair cryptographic operations

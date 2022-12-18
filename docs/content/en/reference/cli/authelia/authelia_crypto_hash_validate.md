@@ -40,6 +40,14 @@ authelia crypto hash validate '$5$rounds=500000$WFjMpdCQxIkbNl0k$M0qZaZoK8Gwdh8C
       --password string   manually supply the password rather than using the terminal prompt
 ```
 
+### Options inherited from parent commands
+
+```
+  -c, --config strings                        configuration files to load (default [configuration.yml])
+      --config.directory string               path to a directory with yml/yaml files to load as part of the configuration
+      --config.experimental.filters strings   Applies filters in order to the configuration file before the YAML parser. Options are 'template', 'expand-env'
+```
+
 ### SEE ALSO
 
 * [authelia crypto hash](authelia_crypto_hash.md)	 - Perform cryptographic hash operations
