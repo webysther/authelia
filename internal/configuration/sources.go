@@ -11,6 +11,7 @@ import (
 	"github.com/knadh/koanf/providers/confmap"
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/posflag"
+	"github.com/knadh/koanf/providers/vault"
 	"github.com/spf13/pflag"
 
 	"github.com/authelia/authelia/v4/internal/configuration/schema"
@@ -83,6 +84,11 @@ func (s *FileSource) Name() (name string) {
 	return fmt.Sprintf("yaml file(%s)", s.path)
 }
 
+// Koanf returns the sources *koanf.Koanf instance.
+func (s *FileSource) Koanf() (koanf *koanf.Koanf) {
+	return s.koanf
+}
+
 // Merge the FileSource koanf.Koanf into the provided one.
 func (s *FileSource) Merge(ko *koanf.Koanf, _ *schema.StructValidator) (err error) {
 	return ko.Merge(s.koanf)
@@ -144,6 +150,11 @@ func (s *EnvironmentSource) Name() (name string) {
 	return "environment"
 }
 
+// Koanf returns the sources *koanf.Koanf instance.
+func (s *EnvironmentSource) Koanf() (koanf *koanf.Koanf) {
+	return s.koanf
+}
+
 // Merge the EnvironmentSource koanf.Koanf into the provided one.
 func (s *EnvironmentSource) Merge(ko *koanf.Koanf, _ *schema.StructValidator) (err error) {
 	return ko.Merge(s.koanf)
@@ -170,6 +181,11 @@ func (s *SecretsSource) Name() (name string) {
 	return "secrets"
 }
 
+// Koanf returns the sources *koanf.Koanf instance.
+func (s *SecretsSource) Koanf() (koanf *koanf.Koanf) {
+	return s.koanf
+}
+
 // Merge the SecretsSource koanf.Koanf into the provided one.
 func (s *SecretsSource) Merge(ko *koanf.Koanf, val *schema.StructValidator) (err error) {
 	for _, key := range s.koanf.Keys() {
@@ -190,6 +206,46 @@ func (s *SecretsSource) Load(val *schema.StructValidator) (err error) {
 	return s.koanf.Load(env.ProviderWithValue(s.prefix, constDelimiter, koanfEnvironmentSecretsCallback(keyMap, val)), nil)
 }
 
+func NewVaultSource(address, path, delimiter, token string) (source *VaultSource) {
+	return &VaultSource{
+		koanf: koanf.New(delimiter),
+		config: vault.Config{
+			Address: address,
+			Path:    path,
+			Delim:   delimiter,
+			Token:   token,
+		},
+	}
+}
+
+// Name of the Source.
+func (s *VaultSource) Name() (name string) {
+	return "vault"
+}
+
+// Koanf returns the sources *koanf.Koanf instance.
+func (s *VaultSource) Koanf() (koanf *koanf.Koanf) {
+	return s.koanf
+}
+
+// Merge the SecretsSource koanf.Koanf into the provided one.
+func (s *VaultSource) Merge(ko *koanf.Koanf, val *schema.StructValidator) (err error) {
+	for _, key := range s.koanf.Keys() {
+		value, ok := ko.Get(key).(string)
+
+		if ok && value != "" {
+			val.Push(fmt.Errorf(errFmtSecretAlreadyDefined, key))
+		}
+	}
+
+	return ko.Merge(s.koanf)
+}
+
+// Load the Source into the SecretsSource koanf.Koanf.
+func (s *VaultSource) Load(val *schema.StructValidator) (err error) {
+	return s.koanf.Load(vault.Provider(s.config), nil)
+}
+
 // NewCommandLineSourceWithMapping creates a new command line configuration source with a map[string]string which converts
 // flag names into other config key names. If includeValidKeys is true we also allow any flag with a name which matches
 // the list of valid keys into the koanf.Koanf, otherwise everything not in the map is skipped. Unchanged flags are also
@@ -205,6 +261,11 @@ func NewCommandLineSourceWithMapping(flags *pflag.FlagSet, mapping map[string]st
 // Name of the Source.
 func (s *CommandLineSource) Name() (name string) {
 	return "command-line"
+}
+
+// Koanf returns the sources *koanf.Koanf instance.
+func (s *CommandLineSource) Koanf() (koanf *koanf.Koanf) {
+	return s.koanf
 }
 
 // Merge the CommandLineSource koanf.Koanf into the provided one.
@@ -232,6 +293,11 @@ func NewMapSource(m map[string]any) (source *MapSource) {
 // Name of the Source.
 func (s *MapSource) Name() (name string) {
 	return "map"
+}
+
+// Koanf returns the sources *koanf.Koanf instance.
+func (s *MapSource) Koanf() (koanf *koanf.Koanf) {
+	return s.koanf
 }
 
 // Merge the CommandLineSource koanf.Koanf into the provided one.

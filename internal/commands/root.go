@@ -49,6 +49,11 @@ func NewRootCmd() (cmd *cobra.Command) {
 	cmd.PersistentFlags().String(cmdFlagNameConfigDirectory, "", "path to a directory with yml/yaml files to load as part of the configuration")
 	cmd.PersistentFlags().StringSlice(cmdFlagNameConfigExpFilters, nil, "Applies filters in order to the configuration file before the YAML parser. Options are 'template', 'expand-env'")
 
+	cmd.PersistentFlags().String(cmdFlagNameConfigExpVaultAddress, "", "Remote Address for the vault configuration source")
+	cmd.PersistentFlags().String(cmdFlagNameConfigExpVaultPath, "", "Path for the vault configuration source")
+	cmd.PersistentFlags().String(cmdFlagNameConfigExpVaultToken, "", "Authentication token for the vault configuration source")
+	cmd.PersistentFlags().String(cmdFlagNameConfigExpVaultDelimiter, "/", "Delimiter for the vault configuration source")
+
 	cmd.AddCommand(
 		newAccessControlCommand(ctx),
 		newBuildInfoCmd(ctx),

@@ -284,6 +284,61 @@ func (ctx *CmdCtx) ConfigEnsureExistsPreRunE(cmd *cobra.Command, _ []string) (er
 	return nil
 }
 
+func isVaultToken(token string) bool {
+	return strings.HasPrefix(token, "hvs.") ||
+		strings.HasPrefix(token, "hvb.") ||
+		strings.HasPrefix(token, "hvr.") ||
+		strings.HasPrefix(token, "s.") ||
+		strings.HasPrefix(token, "b.") ||
+		strings.HasPrefix(token, "r.")
+}
+
+func (ctx *CmdCtx) ConfigLoadVaultSource(cmd *cobra.Command) (err error) {
+	var (
+		address         string
+		path, delimiter string
+		token           string
+	)
+
+	if address, _, err = loadEnvCLIStringValue(cmd, cmdEnvNameConfigExpVaultAddress, cmdFlagNameConfigExpVaultAddress); err != nil {
+		return err
+	}
+
+	if token, _, err = loadEnvCLIStringValue(cmd, cmdEnvNameConfigExpVaultToken, cmdFlagNameConfigExpVaultToken); err != nil {
+		return err
+	}
+
+	if token == "" && address == "" {
+		return nil
+	}
+
+	if !isVaultToken(token) {
+		var data []byte
+
+		if data, err = os.ReadFile(token); err != nil {
+			return fmt.Errorf("failed to load vault token from file: %w", err)
+		}
+
+		token = string(data)
+
+		if !isVaultToken(token) {
+			return fmt.Errorf("the vault token doesn't appear to have a documented format")
+		}
+	}
+
+	if delimiter, _, err = loadEnvCLIStringValue(cmd, cmdEnvNameConfigExpVaultDelimiter, cmdFlagNameConfigExpVaultDelimiter); err != nil {
+		return err
+	}
+
+	if path, _, err = loadEnvCLIStringValue(cmd, cmdEnvNameConfigExpVaultPath, cmdFlagNameConfigExpVaultPath); err != nil {
+		return err
+	}
+
+	ctx.cconfig.sources.Post = append(ctx.cconfig.sources.Post, configuration.NewVaultSource(address, path, delimiter, token))
+
+	return nil
+}
+
 func (ctx *CmdCtx) ConfigLoadPreRunE(cmd *cobra.Command, _ []string) (err error) {
 	var (
 		configs, filterNames []string
@@ -341,6 +396,10 @@ func (ctx *CmdCtx) ConfigLoadPreRunE(cmd *cobra.Command, _ []string) (err error)
 
 	if ctx.cconfig == nil {
 		ctx.cconfig = NewCommandContextConfig()
+	}
+
+	if err = ctx.ConfigLoadVaultSource(cmd); err != nil {
+		return err
 	}
 
 	if ctx.cconfig.keys, err = configuration.LoadAdvanced(

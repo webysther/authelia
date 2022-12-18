@@ -2,6 +2,7 @@ package configuration
 
 import (
 	"github.com/knadh/koanf"
+	"github.com/knadh/koanf/providers/vault"
 	"github.com/spf13/pflag"
 
 	"github.com/authelia/authelia/v4/internal/configuration/schema"
@@ -15,6 +16,7 @@ type Sources struct {
 // Source is an abstract representation of a configuration.Source implementation.
 type Source interface {
 	Name() (name string)
+	Koanf() (ko *koanf.Koanf)
 	Merge(ko *koanf.Koanf, val *schema.StructValidator) (err error)
 	Load(val *schema.StructValidator) (err error)
 }
@@ -39,6 +41,12 @@ type SecretsSource struct {
 	koanf     *koanf.Koanf
 	prefix    string
 	delimiter string
+}
+
+// VaultSource is a configuration.Source which loads configuration from Hashicorp Vault.
+type VaultSource struct {
+	koanf  *koanf.Koanf
+	config vault.Config
 }
 
 // CommandLineSource is a configuration.Source which loads configuration from the command line flags.

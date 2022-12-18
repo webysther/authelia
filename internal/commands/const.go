@@ -535,8 +535,19 @@ const (
 	cmdFlagNameConfig           = "config"
 	cmdFlagNameConfigDirectory  = "config.directory"
 	cmdFlagNameConfigExpFilters = "config.experimental.filters"
-	cmdEnvNameConfig            = "X_AUTHELIA_CONFIG"
-	cmdEnvNameConfigDirectory   = "X_AUTHELIA_CONFIG_DIRECTORY"
+
+	cmdFlagNameConfigExpVaultAddress   = "config.experimental.vault.address"
+	cmdFlagNameConfigExpVaultToken     = "config.experimental.vault.token"
+	cmdFlagNameConfigExpVaultPath      = "config.experimental.vault.path"
+	cmdFlagNameConfigExpVaultDelimiter = "config.experimental.vault.delimiter"
+
+	cmdEnvNameConfig          = "X_AUTHELIA_CONFIG"
+	cmdEnvNameConfigDirectory = "X_AUTHELIA_CONFIG_DIRECTORY"
+
+	cmdEnvNameConfigExpVaultAddress   = "X_AUTHELIA_CONFIG_VAULT_ADDRESS"
+	cmdEnvNameConfigExpVaultPath      = "X_AUTHELIA_CONFIG_VAULT_PATH"
+	cmdEnvNameConfigExpVaultDelimiter = "X_AUTHELIA_CONFIG_VAULT_DELIMITER"
+	cmdEnvNameConfigExpVaultToken     = "X_AUTHELIA_CONFIG_VAULT_TOKEN"
 
 	cmdFlagNameCharSet     = "charset"
 	cmdFlagValueCharSet    = "alphanumeric"
