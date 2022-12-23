@@ -152,7 +152,7 @@ func (s *RegisterDuoDeviceSuite) TestShouldRespondKOOnEmptyMethod() {
 	DuoDevicePOST(s.mock.Ctx)
 
 	s.mock.Assert200KO(s.T(), "Authentication failed, please retry later.")
-	assert.Equal(s.T(), "unable to validate body: method: non zero value required", s.mock.Hook.LastEntry().Message)
+	assert.Equal(s.T(), "unable to validate body: Key: 'DuoDeviceBody.Method' Error:Field validation for 'Method' failed on the 'required' tag", s.mock.Hook.LastEntry().Message)
 	assert.Equal(s.T(), logrus.ErrorLevel, s.mock.Hook.LastEntry().Level)
 }
 
@@ -162,7 +162,7 @@ func (s *RegisterDuoDeviceSuite) TestShouldRespondKOOnEmptyDevice() {
 	DuoDevicePOST(s.mock.Ctx)
 
 	s.mock.Assert200KO(s.T(), "Authentication failed, please retry later.")
-	assert.Equal(s.T(), "unable to validate body: device: non zero value required", s.mock.Hook.LastEntry().Message)
+	assert.Equal(s.T(), "unable to validate body: Key: 'DuoDeviceBody.Device' Error:Field validation for 'Device' failed on the 'required' tag", s.mock.Hook.LastEntry().Message)
 	assert.Equal(s.T(), logrus.ErrorLevel, s.mock.Hook.LastEntry().Level)
 }
 

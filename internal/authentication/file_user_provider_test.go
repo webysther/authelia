@@ -241,7 +241,7 @@ func TestShouldRaiseWhenLoadingDatabaseWithBadSchemaForFirstTime(t *testing.T) {
 
 		provider := NewFileUserProvider(&config)
 
-		assert.EqualError(t, provider.StartupCheck(), "error reading the authentication database: could not validate the schema: Users: non zero value required")
+		assert.EqualError(t, provider.StartupCheck(), "error reading the authentication database: could not validate schema: Key: 'DatabaseModel.Users' Error:Field validation for 'Users' failed on the 'gt' tag")
 	})
 }
 

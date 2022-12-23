@@ -4,9 +4,7 @@ go 1.19
 
 require (
 	github.com/Gurpartap/logrus-stack v0.0.0-20170710170904-89c00d8a28f4
-	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
 	github.com/deckarep/golang-set v1.8.0
-	github.com/deckarep/golang-set/v2 v2.1.0
 	github.com/duosecurity/duo_api_golang v0.0.0-20221117185402-091daa09e19d
 	github.com/fasthttp/router v1.4.14
 	github.com/fasthttp/session/v2 v2.4.13
@@ -14,6 +12,7 @@ require (
 	github.com/go-asn1-ber/asn1-ber v1.5.4
 	github.com/go-crypt/crypt v0.2.3
 	github.com/go-ldap/ldap/v3 v3.4.4
+	github.com/go-playground/validator/v10 v10.11.1
 	github.com/go-rod/rod v0.112.2
 	github.com/go-sql-driver/mysql v1.7.0
 	github.com/go-webauthn/webauthn v0.5.0
@@ -40,6 +39,7 @@ require (
 	github.com/stretchr/testify v1.8.1
 	github.com/trustelem/zxcvbn v1.0.1
 	github.com/valyala/fasthttp v1.43.0
+	golang.org/x/net v0.1.0
 	golang.org/x/sync v0.1.0
 	golang.org/x/term v0.3.0
 	golang.org/x/text v0.5.0
@@ -50,6 +50,7 @@ require (
 require (
 	github.com/Azure/go-ntlmssp v0.0.0-20220621081337-cb9428e4ac1e // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/boombuler/barcode v1.0.1-0.20190219062509-6c824513bacc // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
@@ -65,6 +66,8 @@ require (
 	github.com/facebookgo/stack v0.0.0-20160209184415-751773369052 // indirect
 	github.com/fxamacker/cbor/v2 v2.4.0 // indirect
 	github.com/go-crypt/x v0.1.10 // indirect
+	github.com/go-playground/locales v0.14.0 // indirect
+	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/go-webauthn/revoke v0.1.6 // indirect
 	github.com/golang/glog v1.0.0 // indirect
@@ -78,6 +81,7 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jandelgado/gcov2lcov v1.0.5 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
+	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mattn/goveralls v0.0.11 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
@@ -109,7 +113,6 @@ require (
 	github.com/ysmood/leakless v0.8.0 // indirect
 	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/mod v0.6.0 // indirect
-	golang.org/x/net v0.1.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b // indirect
 	golang.org/x/sys v0.3.0 // indirect
 	golang.org/x/tools v0.2.0 // indirect

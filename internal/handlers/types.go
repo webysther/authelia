@@ -26,7 +26,7 @@ type configurationBody struct {
 
 // bodySignTOTPRequest is the  model of the request body of TOTP 2FA authentication endpoint.
 type bodySignTOTPRequest struct {
-	Token      string `json:"token" valid:"required"`
+	Token      string `json:"token" validate:"required"`
 	TargetURL  string `json:"targetURL"`
 	Workflow   string `json:"workflow"`
 	WorkflowID string `json:"workflowID"`
@@ -49,20 +49,18 @@ type bodySignDuoRequest struct {
 
 // bodyPreferred2FAMethod the selected 2FA method.
 type bodyPreferred2FAMethod struct {
-	Method string `json:"method" valid:"required"`
+	Method string `json:"method" validate:"required"`
 }
 
 // bodyFirstFactorRequest represents the JSON body received by the endpoint.
 type bodyFirstFactorRequest struct {
-	Username       string `json:"username" valid:"required"`
-	Password       string `json:"password" valid:"required"`
+	Username       string `json:"username" validate:"required"`
+	Password       string `json:"password" validate:"required"`
 	TargetURL      string `json:"targetURL"`
 	Workflow       string `json:"workflow"`
 	WorkflowID     string `json:"workflowID"`
 	RequestMethod  string `json:"requestMethod"`
-	KeepMeLoggedIn *bool  `json:"keepMeLoggedIn"`
-	// KeepMeLoggedIn: Cannot require this field because of https://github.com/asaskevich/govalidator/pull/329
-	// TODO(c.michaud): add required validation once the above PR is merged.
+	KeepMeLoggedIn *bool  `json:"keepMeLoggedIn" validate:"required"`
 }
 
 // checkURIWithinDomainRequestBody represents the JSON body received by the endpoint checking if an URI is within
@@ -89,8 +87,8 @@ type TOTPKeyResponse struct {
 
 // DuoDeviceBody the selected Duo device and method.
 type DuoDeviceBody struct {
-	Device string `json:"device" valid:"required"`
-	Method string `json:"method" valid:"required"`
+	Device string `json:"device" validate:"required"`
+	Method string `json:"method" validate:"required"`
 }
 
 // DuoDevice represents Duo devices and methods.
@@ -102,14 +100,14 @@ type DuoDevice struct {
 
 // DuoDevicesResponse represents all available user devices and methods as well as an optional enrollment url.
 type DuoDevicesResponse struct {
-	Result    string      `json:"result" valid:"required"`
+	Result    string      `json:"result" validate:"required"`
 	Devices   []DuoDevice `json:"devices,omitempty"`
 	EnrollURL string      `json:"enroll_url,omitempty"`
 }
 
 // DuoSignResponse represents a result of the preauth and or auth call with further optional info.
 type DuoSignResponse struct {
-	Result    string      `json:"result" valid:"required"`
+	Result    string      `json:"result" validate:"required"`
 	Devices   []DuoDevice `json:"devices,omitempty"`
 	Redirect  string      `json:"redirect,omitempty"`
 	EnrollURL string      `json:"enroll_url,omitempty"`

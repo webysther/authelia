@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/asaskevich/govalidator"
+	"github.com/go-playground/validator/v10"
 	"github.com/sirupsen/logrus"
 	"github.com/valyala/fasthttp"
 
@@ -251,20 +251,20 @@ func (ctx *AutheliaCtx) ReplyOK() {
 
 // ParseBody parse the request body into the type of value.
 func (ctx *AutheliaCtx) ParseBody(value any) error {
+	validate := validator.New()
+
 	err := json.Unmarshal(ctx.PostBody(), &value)
 
 	if err != nil {
 		return fmt.Errorf("unable to parse body: %w", err)
 	}
 
-	valid, err := govalidator.ValidateStruct(value)
+	if err = validate.Struct(value); err != nil {
+		if _, invalid := err.(*validator.InvalidValidationError); invalid {
+			return fmt.Errorf("body is invalid: %w", err)
+		}
 
-	if err != nil {
 		return fmt.Errorf("unable to validate body: %w", err)
-	}
-
-	if !valid {
-		return fmt.Errorf("Body is not valid")
 	}
 
 	return nil

@@ -405,7 +405,7 @@ func (s *SaveSuite) TestShouldReturnError500WhenBadBodyProvided() {
 	MethodPreferencePOST(s.mock.Ctx)
 
 	s.mock.Assert200KO(s.T(), "Operation failed.")
-	assert.Equal(s.T(), "unable to validate body: method: non zero value required", s.mock.Hook.LastEntry().Message)
+	assert.Equal(s.T(), "unable to validate body: Key: 'bodyPreferred2FAMethod.Method' Error:Field validation for 'Method' failed on the 'required' tag", s.mock.Hook.LastEntry().Message)
 	assert.Equal(s.T(), logrus.ErrorLevel, s.mock.Hook.LastEntry().Level)
 }
 

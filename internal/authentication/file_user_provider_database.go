@@ -6,9 +6,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/go-crypt/crypt"
 	"github.com/go-crypt/crypt/algorithm"
+	"github.com/go-playground/validator/v10"
 	"gopkg.in/yaml.v3"
 )
 
@@ -233,7 +233,7 @@ func (m DatabaseUserDetails) ToUserDetailsModel() (model UserDetailsModel) {
 
 // DatabaseModel is the model of users file database.
 type DatabaseModel struct {
-	Users map[string]UserDetailsModel `yaml:"users" valid:"required"`
+	Users map[string]UserDetailsModel `yaml:"users" validate:"eq=1,required"`
 }
 
 // ReadToFileUserDatabase reads the DatabaseModel into a FileUserDatabase.
@@ -259,8 +259,10 @@ func (m *DatabaseModel) ReadToFileUserDatabase(db *FileUserDatabase) (err error)
 func (m *DatabaseModel) Read(filePath string) (err error) {
 	var (
 		content []byte
-		ok      bool
+		invalid bool
 	)
+
+	validate := validator.New()
 
 	if content, err = os.ReadFile(filePath); err != nil {
 		return fmt.Errorf("failed to read the '%s' file: %w", filePath, err)
@@ -274,12 +276,14 @@ func (m *DatabaseModel) Read(filePath string) (err error) {
 		return fmt.Errorf("could not parse the YAML database: %w", err)
 	}
 
-	if ok, err = govalidator.ValidateStruct(m); err != nil {
-		return fmt.Errorf("could not validate the schema: %w", err)
-	}
+	fmt.Println(m)
 
-	if !ok {
-		return fmt.Errorf("the schema is invalid")
+	if err = validate.Struct(m); err != nil {
+		if _, invalid = err.(*validator.InvalidValidationError); invalid {
+			return fmt.Errorf("schema is invalid: %w", err)
+		}
+
+		return fmt.Errorf("could not validate schema: %w", err)
 	}
 
 	return nil
@@ -300,8 +304,8 @@ func (m *DatabaseModel) Write(fileName string) (err error) {
 
 // UserDetailsModel is the model of user details in the file database.
 type UserDetailsModel struct {
-	HashedPassword string   `yaml:"password" valid:"required"`
-	DisplayName    string   `yaml:"displayname" valid:"required"`
+	HashedPassword string   `yaml:"password" validate:"required"`
+	DisplayName    string   `yaml:"displayname" validate:"required"`
 	Email          string   `yaml:"email"`
 	Groups         []string `yaml:"groups"`
 	Disabled       bool     `yaml:"disabled"`

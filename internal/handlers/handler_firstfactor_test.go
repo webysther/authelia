@@ -45,7 +45,7 @@ func (s *FirstFactorSuite) TestShouldFailIfBodyIsInBadFormat() {
 	}`)
 	FirstFactorPOST(nil)(s.mock.Ctx)
 
-	assert.Equal(s.T(), "Failed to parse 1FA request body: unable to validate body: password: non zero value required", s.mock.Hook.LastEntry().Message)
+	assert.Equal(s.T(), "Failed to parse 1FA request body: unable to validate body: Key: 'bodyFirstFactorRequest.Password' Error:Field validation for 'Password' failed on the 'required' tag\nKey: 'bodyFirstFactorRequest.KeepMeLoggedIn' Error:Field validation for 'KeepMeLoggedIn' failed on the 'required' tag", s.mock.Hook.LastEntry().Message)
 	s.mock.Assert401KO(s.T(), "Authentication failed. Check your credentials.")
 }
 
