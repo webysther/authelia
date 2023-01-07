@@ -84,7 +84,7 @@ func getProviders() (providers middlewares.Providers, warnings []error, errors [
 	sessionProvider := session.NewProvider(config.Session, caCertPool)
 	regulator := regulation.NewRegulator(config.Regulation, storageProvider, clock)
 
-	oidcProvider, err := oidc.NewOpenIDConnectProvider(config.IdentityProviders.OIDC, storageProvider)
+	oidcProvider, err := oidc.NewOpenIDConnectProvider(config.IdentityProviders.OIDC, storageProvider, templatesProvider)
 	if err != nil {
 		errors = append(errors, err)
 	}

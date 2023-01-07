@@ -8,10 +8,14 @@ const (
 // Template File Names.
 const (
 	TemplateNameEmailIdentityVerification = "IdentityVerification"
+	TemplateNameEmailEvent                = "Event"
 	TemplateNameEmailPasswordReset        = "PasswordReset"
+
+	TemplateNameOIDCAuthorizeFormPost = "AuthorizeResponseFormPost.html"
 )
 
 // Template Category Names.
 const (
 	TemplateCategoryNotifications = "notification"
+	TemplateCategoryOpenIDConnect = "oidc"
 )
