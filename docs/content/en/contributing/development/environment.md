@@ -18,7 +18,7 @@ __Authelia__ and its development workflow can be tested with [Docker] and [Docke
 
 In order to build and contribute to __Authelia__, you need to make sure the following are installed in your environment:
 
-* [go] *(v1.18 or greater)*
+* [go] *(v1.19 or greater)*
 * [Docker]
 * [Docker Compose]
 * [Node.js] *(v16 or greater)*
@@ -49,23 +49,10 @@ under Windows or OSX is not something that is currently possible to do easily. A
 We have no firm recommendations on the version to use but we actively use the latest versions available to us in the
 distributions of our choice. As long as it's a modern version it should be sufficient for the development environment.
 
-### How can I serve my application under example.com?
+### How can I run tests against the example.com domain?
 
-Don't worry, you don't need to own the domain `example.com` to test Authelia. Copy the following lines in
-your `/etc/hosts`:
-
-```text
-192.168.240.100 home.example.com
-192.168.240.100 login.example.com
-192.168.240.100 singlefactor.example.com
-192.168.240.100 public.example.com
-192.168.240.100 secure.example.com
-192.168.240.100 mail.example.com
-192.168.240.100 mx1.mail.example.com
-```
-
-The IP address `192.168.240.100` is the IP attributed by [Docker] to the reverse proxy. Once added you can access the
-listed subdomains from your browser, and they will be served by the reverse proxy.
+The Authelia development environment `bootstrap.sh` which can be utilized via `source bootstrap.sh` will automatically
+adjust your `/etc/hosts` file to be compatible with the testing suites.
 
 [suites]: ./integration-suites.md
 [Buildkite]: https://buildkite.com/

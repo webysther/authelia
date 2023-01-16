@@ -48,10 +48,18 @@ Then, edit the code and observe how __Authelia__ is automatically reloaded.
 
 ### Unit tests
 
-To run the unit tests, run:
+You can either use the `authelia-scripts` tool to run the unit tests or regular `gotest`.
+
+Using `authelia-scripts`:
 
 ```bash
 authelia-scripts unittest
+```
+
+Using `gotest`:
+
+```bash
+go test -short ./...
 ```
 
 ### Integration tests
