@@ -46,6 +46,12 @@ authelia configuration, and authelia database prior to attempting to do so._
 
 ### 4.38.0-beta1
 
+Notable Missing Features from this build:
+
+- OpenID Connect 1.0 PAR
+- Multi-Device Webauthn
+- Device Registration OTP
+
 - Container Images:
   - [docker.io/authelia/authelia:v4.38.0-beta1](https://hub.docker.com/layers/authelia/authelia/v4.38.0-beta1/images/sha256-53faae6b6a0616f71f1f77069237d92969433b0037b9825be12852e013812bd0?context=explore)
   - [ghcr.io/authelia/authelia:v4.38.0-beta1](https://github.com/authelia/authelia/pkgs/container/authelia/65909221?tag=v4.38.0-beta1)
