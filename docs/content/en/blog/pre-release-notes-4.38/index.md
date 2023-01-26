@@ -41,6 +41,9 @@ specific scenarios._
 
 The following contains information on getting access to the pre-production builds of 4.38.0.
 
+_**Note:** We strongly recommend people who wish to try the beta builds make backups of their proxy configuration,
+authelia configuration, and authelia database prior to attempting to do so._
+
 ### 4.38.0-beta1
 
 - Container Images:
