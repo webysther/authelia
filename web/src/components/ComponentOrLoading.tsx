@@ -8,7 +8,7 @@ export interface Props {
     children: ReactNode;
 }
 
-const ComponentOrLoading = function (props: Props) {
+function ComponentOrLoading(props: Props) {
     return (
         <Fragment>
             <div className={props.ready ? "hidden" : ""}>
@@ -17,6 +17,6 @@ const ComponentOrLoading = function (props: Props) {
             {props.ready ? props.children : null}
         </Fragment>
     );
-};
+}
 
 export default ComponentOrLoading;
