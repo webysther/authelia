@@ -22,8 +22,6 @@ community: true
 
 ## Before You Begin
 
-### Common Notes
-
 {{% oidc-common %}}
 
 ### Assumptions
