@@ -31,7 +31,7 @@ This example makes the following assumptions:
 * __Application Root URL:__ `https://seafile.example.com`
 * __Authelia Root URL:__ `https://auth.example.com`
 * __Client ID:__ `seafile`
-* __Client Secret:__ `seafile_client_secret`
+* __Client Secret:__ `insecure_secret`
 
 ## Configuration
 
@@ -75,7 +75,7 @@ which will operate with the above example:
 ```yaml
 - id: seafile
   description: Seafile
-  secret: '$plaintext$seafile_client_secret'
+  secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
   public: false
   authorization_policy: two_factor
   redirect_uris:

@@ -34,8 +34,8 @@ This example makes the following assumptions:
 * __Client Secret:__ `insecure_secret`
 * __Config ID (Firezone):__ `authelia`:
     * This option determines the redirect URI in the format of
-      `https://firezone.example.com/auth/oidc/<Config ID>/callback`.
-      This means if you change this value you need to update the redirect URI.
+      `https://firezone.example.com/auth/oidc/<Config ID>/callback`. This means if you change this value you need to
+      update the redirect URI.
 
 ## Configuration
 
@@ -76,8 +76,6 @@ will operate with the above example:
   secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
   public: false
   authorization_policy: two_factor
-  enforce_pkce: true
-  pkce_challenge_method: S256
   redirect_uris:
     - https://firezone.example.com/auth/oidc/authelia/callback
   scopes:

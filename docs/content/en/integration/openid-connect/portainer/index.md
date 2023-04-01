@@ -33,7 +33,7 @@ This example makes the following assumptions:
 * __Application Root URL:__ `https://portainer.example.com`
 * __Authelia Root URL:__ `https://auth.example.com`
 * __Client ID:__ `portainer`
-* __Client Secret:__ `portainer_client_secret`
+* __Client Secret:__ `insecure_secret`
 
 ## Configuration
 
@@ -48,7 +48,7 @@ To configure [Portainer] to utilize Authelia as an [OpenID Connect 1.0] Provider
    2. Provider: Custom
    3. Enable *Automatic User Provision* if you want users to automatically be created in [Portainer].
    4. Client ID: `portainer`
-   5. Client Secret: `portainer_client_secret`
+   5. Client Secret: `insecure_secret`
    6. Authorization URL: `https://auth.example.com/api/oidc/authorization`
    7. Access Token URL: `https://auth.example.com/api/oidc/token`
    8. Resource URL: `https://auth.example.com/api/oidc/userinfo`
@@ -67,7 +67,7 @@ which will operate with the above example:
 ```yaml
 - id: portainer
   description: Portainer
-  secret: '$plaintext$portainer_client_secret'
+  secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
   public: false
   authorization_policy: two_factor
   redirect_uris:

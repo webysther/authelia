@@ -29,7 +29,7 @@ This example makes the following assumptions:
 * __Cloudflare Team Name:__ `example-team`
 * __Authelia Root URL:__ `https://auth.example.com`
 * __Client ID:__ `cloudflare`
-* __Client Secret:__ `cloudflare_client_secret`
+* __Client Secret:__ `insecure_secret`
 
 *__Important Note:__ [Cloudflare Zero Trust] does not properly URL encode the secret per [RFC6749 Appendix B] at the
 time this article was last modified (noted at the bottom). This means you'll either have to use only alphanumeric
@@ -55,7 +55,7 @@ To configure [Cloudflare Zero Trust] to utilize Authelia as an [OpenID Connect 1
 6. Set the following values:
    1. Name: `Authelia`
    2. App ID: `cloudflare`
-   3. Client Secret: `cloudflare_client_secret`
+   3. Client Secret: `insecure_secret`
    4. Auth URL: `https://auth.example.com/api/oidc/authorization`
    5. Token URL: `https://auth.example.com/api/oidc/token`
    6. Certificate URL: `https://auth.example.com/jwks.json`
@@ -72,7 +72,7 @@ which will operate with the above example:
 ```yaml
 - id: cloudflare
   description: Cloudflare ZeroTrust
-  secret: '$plaintext$cloudflare_client_secret'
+  secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
   public: false
   authorization_policy: two_factor
   redirect_uris:

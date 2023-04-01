@@ -31,7 +31,7 @@ This example makes the following assumptions:
 * __Application Root URL:__ `https://nextcloud.example.com`
 * __Authelia Root URL:__ `https://auth.example.com`
 * __Client ID:__ `nextcloud`
-* __Client Secret:__ `nextcloud_client_secret`
+* __Client Secret:__ `insecure_secret`
 
 ## Configuration
 
@@ -48,7 +48,7 @@ $CONFIG = array (
     'lost_password_link' => 'disabled',
     'oidc_login_provider_url' => 'https://auth.example.com',
     'oidc_login_client_id' => 'nextcloud',
-    'oidc_login_client_secret' => 'nextcloud_client_secret',
+    'oidc_login_client_secret' => 'insecure_secret',
     'oidc_login_auto_redirect' => false,
     'oidc_login_end_session_redirect' => false,
     'oidc_login_button_text' => 'Log in with Authelia',
@@ -87,7 +87,7 @@ which will operate with the above example:
 ```yaml
 - id: nextcloud
   description: NextCloud
-  secret: '$plaintext$nextcloud_client_secret'
+  secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
   public: false
   authorization_policy: two_factor
   redirect_uris:

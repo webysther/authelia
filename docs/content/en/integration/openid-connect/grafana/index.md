@@ -31,7 +31,7 @@ This example makes the following assumptions:
 * __Application Root URL:__ `https://grafana.example.com`
 * __Authelia Root URL:__ `https://auth.example.com`
 * __Client ID:__ `grafana`
-* __Client Secret:__ `grafana_client_secret`
+* __Client Secret:__ `insecure_secret`
 
 ## Configuration
 
@@ -51,7 +51,7 @@ enabled = true
 name = Authelia
 icon = signin
 client_id = grafana
-client_secret = grafana_client_secret
+client_secret = insecure_secret
 scopes = openid profile email groups
 empty_scopes = false
 auth_url = https://auth.example.com/api/oidc/authorization
@@ -73,7 +73,7 @@ Configure the following environment variables:
 |        GF_AUTH_GENERIC_OAUTH_ENABLED        |                      true                       |
 |         GF_AUTH_GENERIC_OAUTH_NAME          |                    Authelia                     |
 |       GF_AUTH_GENERIC_OAUTH_CLIENT_ID       |                     grafana                     |
-|     GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET     |              grafana_client_secret              |
+|     GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET     |                 insecure_secret                 |
 |        GF_AUTH_GENERIC_OAUTH_SCOPES         |           openid profile email groups           |
 |     GF_AUTH_GENERIC_OAUTH_EMPTY_SCOPES      |                      false                      |
 |       GF_AUTH_GENERIC_OAUTH_AUTH_URL        | https://auth.example.com/api/oidc/authorization |
@@ -93,7 +93,7 @@ which will operate with the above example:
 ```yaml
 - id: grafana
   description: Grafana
-  secret: '$plaintext$grafana_client_secret'
+  secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
   public: false
   authorization_policy: two_factor
   redirect_uris:

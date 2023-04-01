@@ -31,7 +31,7 @@ This example makes the following assumptions:
 * __Application Root URL:__ `https://bookstack.example.com`
 * __Authelia Root URL:__ `https://auth.example.com`
 * __Client ID:__ `bookstack`
-* __Client Secret:__ `bookstack_client_secret`
+* __Client Secret:__ `insecure_secret`
 
 *__Important Note:__ [BookStack] does not properly URL encode the secret per [RFC6749 Appendix B] at the time this
 article was last modified (noted at the bottom). This means you'll either have to use only alphanumeric characters for
@@ -51,7 +51,7 @@ To configure [BookStack] to utilize Authelia as an [OpenID Connect 1.0] Provider
    2. OIDC_NAME: `Authelia`
    3. OIDC_DISPLAY_NAME_CLAIMS: `name`
    4. OIDC_CLIENT_ID: `bookstack`
-   5. OIDC_CLIENT_SECRET: `bookstack_client_secret`
+   5. OIDC_CLIENT_SECRET: `insecure_secret`
    6. OIDC_ISSUER: `https://auth.example.com`
    7. OIDC_ISSUER_DISCOVER: `true`
 
@@ -64,7 +64,7 @@ which will operate with the above example:
 ```yaml
 - id: bookstack
   description: BookStack
-  secret: '$plaintext$bookstack_client_secret'
+  secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
   public: false
   authorization_policy: two_factor
   redirect_uris:

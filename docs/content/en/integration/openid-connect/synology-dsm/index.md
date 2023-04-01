@@ -36,7 +36,7 @@ This example makes the following assumptions:
 * __Application Root URL:__ `https://dsm.example.com/`
 * __Authelia Root URL:__ `https://auth.example.com`
 * __Client ID:__ `synology-dsm`
-* __Client Secret:__ `synology-dsm_client_secret`
+* __Client Secret:__ `insecure_secret`
 
 ## Configuration
 
@@ -54,7 +54,7 @@ To configure [Synology DSM] to utilize Authelia as an [OpenID Connect 1.0] Provi
     * Name: `Authelia`
     * Well Known URL: `https://auth.example.com/.well-known/openid-configuration`
     * Application ID: `synology-dsm`
-    * Application Key: `synology-dsm_client_secret`
+    * Application Key: `insecure_secret`
     * Redirect URL: `https://dsm.example.com`
     * Authorisation Scope: `openid profile groups email`
     * Username Claim: `preferred_username`
@@ -71,7 +71,7 @@ which will operate with the above example:
 ```yaml
 - id: synology-dsm
   description: Synology DSM
-  secret: '$plaintext$synology-dsm_client_secret'
+  secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
   public: false
   authorization_policy: two_factor
   redirect_uris:
