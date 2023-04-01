@@ -81,6 +81,10 @@ To configure [Misago] to utilize Authelia as an [OpenID Connect 1.0](https://www
 The following YAML configuration is an example **Authelia** [client configuration](https://www.authelia.com/configuration/identity-providers/open-id-connect/#clients) for use with [Misago] which will operate with the above example:
 
 ```yaml
+identity_providers:
+  oidc:
+    ## The other portions of the mandatory OpenID Connect 1.0 configuration go here.
+    ## See: https://www.authelia.com/c/oidc
     clients:
       - id: misago
         secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
