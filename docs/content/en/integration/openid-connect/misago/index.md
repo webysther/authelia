@@ -33,7 +33,6 @@ This example makes the following assumptions:
 * __Client ID:__ `misago`
 * __Client Secret:__ `insecure_secret`
 
-
 ## Configuration
 
 ### Application
