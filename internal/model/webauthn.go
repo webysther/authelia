@@ -174,15 +174,17 @@ func (d *WebauthnDevice) UpdateSignInInfo(config *webauthn.Config, now time.Time
 
 func (d *WebauthnDevice) LastUsed() *time.Time {
 	if d.LastUsedAt.Valid {
-		return &d.LastUsedAt.Time
+		value := time.Unix(d.LastUsedAt.Time.Unix(), int64(d.LastUsedAt.Time.Nanosecond()))
+
+		return &value
 	}
 
 	return nil
 }
 
-// MarshalYAML marshals this model into YAML.
-func (d *WebauthnDevice) MarshalYAML() (any, error) {
-	o := WebauthnDeviceData{
+// ToData converts this WebauthnDevice into the data format for exporting etc.
+func (d *WebauthnDevice) ToData() WebauthnDeviceData {
+	return WebauthnDeviceData{
 		CreatedAt:       d.CreatedAt,
 		LastUsedAt:      d.LastUsed(),
 		RPID:            d.RPID,
@@ -196,8 +198,11 @@ func (d *WebauthnDevice) MarshalYAML() (any, error) {
 		SignCount:       d.SignCount,
 		CloneWarning:    d.CloneWarning,
 	}
+}
 
-	return yaml.Marshal(o)
+// MarshalYAML marshals this model into YAML.
+func (d *WebauthnDevice) MarshalYAML() (any, error) {
+	return d.ToData(), nil
 }
 
 // UnmarshalYAML unmarshalls YAML into this model.
@@ -265,4 +270,27 @@ type WebauthnDeviceData struct {
 // WebauthnDeviceExport represents a WebauthnDevice export file.
 type WebauthnDeviceExport struct {
 	WebauthnDevices []WebauthnDevice `yaml:"webauthn_devices"`
+}
+
+// WebAuthnDeviceDataExport represents a WebAuthnDevice export file.
+type WebAuthnDeviceDataExport struct {
+	WebAuthnDevices []WebauthnDeviceData `yaml:"webauthn_devices"`
+}
+
+// ToData converts this WebAuthnDeviceExport into a WebAuthnDeviceDataExport.
+func (export WebauthnDeviceExport) ToData() WebAuthnDeviceDataExport {
+	data := WebAuthnDeviceDataExport{
+		WebAuthnDevices: make([]WebauthnDeviceData, len(export.WebauthnDevices)),
+	}
+
+	for i, device := range export.WebauthnDevices {
+		data.WebAuthnDevices[i] = device.ToData()
+	}
+
+	return data
+}
+
+// MarshalYAML marshals this model into YAML.
+func (export WebauthnDeviceExport) MarshalYAML() (any, error) {
+	return export.ToData(), nil
 }
