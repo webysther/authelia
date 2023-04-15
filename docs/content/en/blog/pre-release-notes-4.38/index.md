@@ -120,7 +120,6 @@ Major Documentation Changes:
   - [Caddy](https://63d20934fa12200009e12cbf--authelia-staging.netlify.app/integration/proxies/caddy/)
   - [Envoy](https://63d20934fa12200009e12cbf--authelia-staging.netlify.app/integration/proxies/envoy/)
   - [HAProxy](https://63d20934fa12200009e12cbf--authelia-staging.netlify.app/integration/proxies/haproxy/)
-  - [HAProxy](https://63d20934fa12200009e12cbf--authelia-staging.netlify.app/integration/proxies/haproxy/)
   - [NGINX](https://63d20934fa12200009e12cbf--authelia-staging.netlify.app/integration/proxies/nginx/)
   - [Traefik](https://63d20934fa12200009e12cbf--authelia-staging.netlify.app/integration/proxies/traefik/)
 - [Kubernetes Integration](https://63d20934fa12200009e12cbf--authelia-staging.netlify.app/integration/kubernetes/introduction/)
