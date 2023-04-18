@@ -466,14 +466,6 @@ and is paired with [authelia-location.conf](#authelia-locationconf).*
 ## Send a subrequest to Authelia to verify if the user is authenticated and has permission to access the resource.
 auth_request /internal/authelia/authz;
 
-## Save the upstream authorization response headers from Authelia to variables.
-auth_request_set $authorization $upstream_http_authorization;
-auth_request_set $proxy_authorization $upstream_http_proxy_authorization;
-
-## Inject the authorization response headers from the variables into the request made to the backend.
-proxy_set_header Authorization $authorization;
-proxy_set_header Proxy-Authorization $proxy_authorization;
-
 ## Save the upstream metadata response headers from Authelia to variables.
 auth_request_set $user $upstream_http_remote_user;
 auth_request_set $groups $upstream_http_remote_groups;

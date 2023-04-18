@@ -30,20 +30,19 @@ See [support](support.md) for support information.
 
 ### Required Headers
 
-__Authelia__ itself requires the following headers are set when secured behind a reverse proxy:
+__Authelia__ itself requires information about the actual request made to the portal. Each proxy is different and you
+should refer to each of the individual proxy documents, however the following headers are considered required when
+secured behind a reverse proxy:
 
-* Scheme Detection:
-  * Default: [X-Forwarded-Proto] (header)
-  * Fallback: TLS (listening socket state)
-* Host Detection:
-  * Default: [X-Forwarded-Host] (header)
-  * Fallback: [Host] (header)
-* Path Detection:
-  * Default: X-Forwarded-URI (header)
-  * Fallback: [Start Line] Request Target (start line)
-* Remote IP:
-  * Default: [X-Forwarded-For]
-  * Fallback: TCP source IP
+|   Usage   |        Primary Source        |            Fallback Source            |          Example Values           |
+|:---------:|:----------------------------:|:-------------------------------------:|:---------------------------------:|
+|  Scheme   | [X-Forwarded-Proto] (header) |     TLS (listening socket state)      |          `https`, `http`          |
+|   Host    | [X-Forwarded-Host] (header)  |            [Host] (header)            | `example.com`, `example.com:8081` |
+|   Path    |  `X-Forwarded-URI` (header)  | Request Target (Request [Start Line]) |         `/`, `/api/state`         |
+| Remote IP |  [X-Forwarded-For] (header)  |        Source IP (TCP Packet)         | `127.0.0.1,1.1.1.1`, `127.0.0.1`  |
+
+*__Important Note:__ these headers should match exactly with the URL displayed in the users browser for specifically the
+Authelia application when formatted like `<scheme>://<host>>path>`.*
 
 [Host]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host
 [Start Line]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages#start_line
@@ -60,18 +59,16 @@ the policy engines determination about what must be done.
 ### Destination Identification
 
 Broadly speaking, the method to identify the destination of a request relies on metadata headers which need to be set by
-your reverse proxy. The headers we rely on at the authz endpoints are as follows:
+your reverse proxy. The headers we rely on at the authorization endpoints vary and you should refer to the
+[Authorization Implementation] documentation for information on which headers.
 
-* [X-Forwarded-Proto](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Proto)
-* [X-Forwarded-Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host)
-* X-Forwarded-URI
-* [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
-* X-Forwarded-Method / X-Original-Method
-* X-Original-URL
+*__Important Note:__ the headers should match exactly with the URL displayed in the users browser for specifically the
+protected application when formatted like `<scheme>://<host>>path>`.*
 
-The specifics however are dictated by the specific
-[Authorization Implementation](../../reference/guides/proxy-authorization.md) used. Please refer to the specific
+The specifics however are dictated by the specific [Authorization Implementation] used. Please refer to the specific
 implementation you're using.
+
+[Authorization Implementation]: ../../reference/guides/proxy-authorization.md
 
 ### User Identification
 

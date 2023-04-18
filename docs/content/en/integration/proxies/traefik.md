@@ -198,7 +198,7 @@ services:
       ## configured in the Session Cookies section of the Authelia configuration.
       # - 'traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth?authelia_url=https%3A%2F%2Fauth.example.com%2F'
       - 'traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true'
-      - 'traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Authorization,Proxy-Authorization,Remote-User,Remote-Groups,Remote-Email,Remote-Name'
+      - 'traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name'
   nextcloud:
     container_name: nextcloud
     image: linuxserver/nextcloud
@@ -411,8 +411,6 @@ http:
         # address: 'https://authelia:9091/api/authz/forward-auth?authelia_url=https%3A%2F%2Fauth.example.com%2F'
         trustForwardHeader: true
         authResponseHeaders:
-          - 'Authorization'
-          - 'Proxy-Authorization'
           - 'Remote-User'
           - 'Remote-Groups'
           - 'Remote-Email'
@@ -426,8 +424,6 @@ http:
         address: 'https://authelia:9091/api/verify?auth=basic'
         trustForwardHeader: true
         authResponseHeaders:
-          - 'Authorization'
-          - 'Proxy-Authorization'
           - 'Remote-User'
           - 'Remote-Groups'
           - 'Remote-Email'
@@ -544,7 +540,7 @@ This can be avoided a couple different ways:
 ## configured in the Session Cookies section of the Authelia configuration.
 # - 'traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth?authelia_url=https%3A%2F%2Fauth.example.com%2F'
 - 'traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true'
-- 'traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Authorization,Proxy-Authorization,Remote-User,Remote-Groups,Remote-Email,Remote-Name'
+- 'traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name'
 ```
 
 ## See Also

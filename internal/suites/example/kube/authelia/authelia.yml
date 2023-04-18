@@ -145,8 +145,6 @@ spec:
     address: 'https://authelia-service.authelia.svc.cluster.local/api/authz/forward-auth'
     trustForwardHeader: true
     authResponseHeaders:
-      - 'Authorization'
-      - 'Proxy-Authorization'
       - 'Remote-User'
       - 'Remote-Groups'
       - 'Remote-Email'
