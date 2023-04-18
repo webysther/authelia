@@ -108,7 +108,8 @@ The period of time before the cookie expires and the session is destroyed. This 
 *__Note:__ This setting uses the [duration notation format](../prologue/common.md#duration-notation-format). Please see
 the [common options](../prologue/common.md#duration-notation-format) documentation for information on this format.*
 
-The period of time the user can be inactive for until the session is destroyed. Useful if you want long session timers
+The period of time the user can be inactive for until the session is destroyed when the remember me box is not checked
+or is otherwise disabled. Useful if you want long session timers
 but don't want unused devices to be vulnerable.
 
 ### remember_me_duration
@@ -118,8 +119,8 @@ but don't want unused devices to be vulnerable.
 *__Note:__ This setting uses the [duration notation format](../prologue/common.md#duration-notation-format). Please see
 the [common options](../prologue/common.md#duration-notation-format) documentation for information on this format.*
 
-The period of time before the cookie expires and the session is destroyed when the remember me box is checked. Setting
-this to `-1` disables this feature entirely.
+The period of time before the cookie expires and the session is destroyed when the remember me box is checked, a user
+selecting this option negates the [inactivity](#inactivity) timeout. Setting this to `-1` disables this feature entirely.
 
 ## Security
 
