@@ -11,6 +11,7 @@ import {
     Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
+import Draggable from "react-draggable";
 import { useTranslation } from "react-i18next";
 
 import CopyButton from "@components/CopyButton";
