@@ -165,6 +165,8 @@ func handleRouter(config *schema.Configuration, providers middlewares.Providers)
 		r.GET("/api/"+file, handlerPublicHTML)
 	}
 
+	handlersProtectedEndpoint := middlewares.NewProtectedEndpointHandlers()
+
 	middlewareAPI := middlewares.NewBridgeBuilder(*config, providers).
 		WithPreMiddlewares(middlewares.SecurityHeaders, middlewares.SecurityHeadersNoStore, middlewares.SecurityHeadersCSPNone).
 		Build()
@@ -176,7 +178,7 @@ func handleRouter(config *schema.Configuration, providers middlewares.Providers)
 
 	middleware2FA := middlewares.NewBridgeBuilder(*config, providers).
 		WithPreMiddlewares(middlewares.SecurityHeaders, middlewares.SecurityHeadersNoStore, middlewares.SecurityHeadersCSPNone).
-		WithPostMiddlewares(middlewares.Require2FAWithAPIResponse).
+		WithPostMiddlewares(middlewares.Require2FA).
 		Build()
 
 	r.HEAD("/api/health", middlewareAPI(handlers.HealthGET))
@@ -251,6 +253,11 @@ func handleRouter(config *schema.Configuration, providers middlewares.Providers)
 	r.GET("/api/user/info", middleware1FA(handlers.UserInfoGET))
 	r.POST("/api/user/info", middleware1FA(handlers.UserInfoPOST))
 	r.POST("/api/user/info/2fa_method", middleware1FA(handlers.MethodPreferencePOST))
+
+	// Session elevation.
+	r.GET("/api/user/session/elevated", middlewares.ProtectedEndpointStatus())
+	r.GET("/api/user/session/elevate", middleware1FA(handlers.UserSessionElevateGET))
+	r.POST("/api/user/session/elevate", middleware1FA(handlers.UserSessionElevatePOST))
 
 	if !config.TOTP.Disable {
 		// TOTP related endpoints.

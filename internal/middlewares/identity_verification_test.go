@@ -133,7 +133,7 @@ func (s *IdentityVerificationFinishProcess) TearDownTest() {
 }
 
 func createToken(ctx *mocks.MockAutheliaCtx, username, action string, expiresAt time.Time) (data string, verification model.IdentityVerification) {
-	verification = model.NewIdentityVerification(uuid.New(), username, action, ctx.Ctx.RemoteIP())
+	verification = model.NewIdentityVerification(uuid.New(), username, action, ctx.Ctx.RemoteIP(), time.Duration(0))
 
 	verification.ExpiresAt = expiresAt
 

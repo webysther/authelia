@@ -44,7 +44,7 @@ func IdentityVerificationStart(args IdentityVerificationStartArgs, delayFunc Tim
 			return
 		}
 
-		verification := model.NewIdentityVerification(jti, identity.Username, args.ActionClaim, ctx.RemoteIP())
+		verification := model.NewIdentityVerification(jti, identity.Username, args.ActionClaim, ctx.RemoteIP(), ctx.Configuration.IdentityValidation.PasswordReset.EmailExpiration)
 
 		// Create the claim with the action to sign it.
 		claims := verification.ToIdentityVerificationClaim()
@@ -71,8 +71,7 @@ func IdentityVerificationStart(args IdentityVerificationStartArgs, delayFunc Tim
 		linkURL.Path = path.Join(linkURL.Path, args.TargetEndpoint)
 		linkURL.RawQuery = query.Encode()
 
-		data := templates.EmailIdentityVerificationValues{
-			Title:       args.MailTitle,
+		data := templates.EmailPasswordResetValues{
 			LinkURL:     linkURL.String(),
 			LinkText:    args.MailButtonContent,
 			DisplayName: identity.DisplayName,
@@ -84,7 +83,7 @@ func IdentityVerificationStart(args IdentityVerificationStartArgs, delayFunc Tim
 
 		recipient := mail.Address{Name: identity.DisplayName, Address: identity.Email}
 
-		if err = ctx.Providers.Notifier.Send(ctx, recipient, args.MailTitle, ctx.Providers.Templates.GetIdentityVerificationEmailTemplate(), data); err != nil {
+		if err = ctx.Providers.Notifier.Send(ctx, recipient, args.MailTitle, ctx.Providers.Templates.GetPasswordResetEmailTemplate(), data); err != nil {
 			ctx.Error(err, messageOperationFailed)
 			return
 		}

@@ -12,7 +12,7 @@ const (
 	ActionWebAuthnRegistration = "RegisterWebAuthnDevice"
 
 	// ActionResetPassword is the string representation of the action for which the token has been produced.
-	ActionResetPassword = "ResetPassword"
+	ActionResetPassword = "PasswordReset"
 )
 
 const (

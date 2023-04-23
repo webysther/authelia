@@ -151,6 +151,10 @@ type resetPasswordStep2RequestBody struct {
 	Password string `json:"password"`
 }
 
+type bodyUserSessionElevateRequest struct {
+	OneTimePassword string `json:"one_time_password"`
+}
+
 // PasswordPolicyBody represents the response sent by the password reset step 2.
 type PasswordPolicyBody struct {
 	Mode             string `json:"mode"`

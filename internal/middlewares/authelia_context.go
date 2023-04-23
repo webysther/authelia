@@ -69,25 +69,31 @@ func (ctx *AutheliaCtx) Error(err error, message string) {
 
 // SetJSONError sets the body of the response to an JSON error KO message.
 func (ctx *AutheliaCtx) SetJSONError(message string) {
-	if err := ctx.ReplyJSON(ErrorResponse{Status: "KO", Message: message}, 0); err != nil {
+	if err := ctx.ReplyJSON(ErrorResponse{Status: responseAPIStatusKO, Message: message}, 0); err != nil {
 		ctx.Logger.Error(err)
 	}
 }
 
-// SetAuthenticationErrorJSON sets the body of the response to an JSON error KO message.
-func (ctx *AutheliaCtx) SetAuthenticationErrorJSON(status int, message string, authentication, elevation bool) {
+// SetAuthenticationResponseJSON sets the body of the response to an JSON error KO message.
+func (ctx *AutheliaCtx) SetAuthenticationResponseJSON(status int, message string, authentication, elevation bool) {
+	response := AuthenticationErrorResponse{Status: responseAPIStatusKO, Message: message, Authentication: authentication, Elevation: elevation}
+
+	switch {
+	case status == fasthttp.StatusOK:
+		response.Status = responseAPIStatusOK
+	}
 	if status > fasthttp.StatusOK {
 		ctx.SetStatusCode(status)
 	}
 
-	if err := ctx.ReplyJSON(AuthenticationErrorResponse{Status: "KO", Message: message, Authentication: authentication, Elevation: elevation}, 0); err != nil {
+	if err := ctx.ReplyJSON(AuthenticationErrorResponse{Status: responseAPIStatusKO, Message: message, Authentication: authentication, Elevation: elevation}, 0); err != nil {
 		ctx.Logger.Error(err)
 	}
 }
 
 // ReplyError reply with an error but does not display any stack trace in the logs.
 func (ctx *AutheliaCtx) ReplyError(err error, message string) {
-	b, marshalErr := json.Marshal(ErrorResponse{Status: "KO", Message: message})
+	b, marshalErr := json.Marshal(ErrorResponse{Status: responseAPIStatusKO, Message: message})
 
 	if marshalErr != nil {
 		ctx.Logger.Error(marshalErr)
@@ -458,7 +464,7 @@ func (ctx *AutheliaCtx) SetContentSecurityPolicyBytes(value []byte) {
 
 // SetJSONBody Set json body.
 func (ctx *AutheliaCtx) SetJSONBody(value any) error {
-	return ctx.ReplyJSON(OKResponse{Status: "OK", Data: value}, 0)
+	return ctx.ReplyJSON(OKResponse{Status: responseAPIStatusOK, Data: value}, 0)
 }
 
 // RemoteIP return the remote IP taking X-Forwarded-For header into account if provided.

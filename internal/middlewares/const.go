@@ -6,6 +6,11 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
+const (
+	responseAPIStatusOK = "OK"
+	responseAPIStatusKO = "KO"
+)
+
 var (
 	headerXAutheliaURL = []byte("X-Authelia-URL")
 

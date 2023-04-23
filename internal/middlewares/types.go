@@ -125,7 +125,7 @@ type ErrorResponse struct {
 // AuthenticationErrorResponse model of an error response.
 type AuthenticationErrorResponse struct {
 	Status         string `json:"status"`
-	Message        string `json:"message"`
+	Message        string `json:"message,omitempty"`
 	Authentication bool   `json:"authentication"`
 	Elevation      bool   `json:"elevation"`
 }

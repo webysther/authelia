@@ -31,8 +31,9 @@ type OpenAPIAssetTemplates struct {
 
 // NotificationTemplates are the templates for the notification system.
 type NotificationTemplates struct {
-	identityVerification *EmailTemplate
-	event                *EmailTemplate
+	reset *EmailTemplate
+	event *EmailTemplate
+	otp   *EmailTemplate
 }
 
 // Template covers shared implementations between the text and html template.Template.
@@ -62,16 +63,17 @@ type EmailEventValues struct {
 	RemoteIP    string
 }
 
-// EmailPasswordResetValues are the values used for password reset templates.
-type EmailPasswordResetValues struct {
-	Title       string
-	DisplayName string
-	RemoteIP    string
+// EmailOneTimePasswordValues are the values used for the one time password template.
+type EmailOneTimePasswordValues struct {
+	Title           string
+	DisplayName     string
+	RemoteIP        string
+	Identifier      string
+	OneTimePassword string
 }
 
-// EmailIdentityVerificationValues are the values used for the identity verification templates.
-type EmailIdentityVerificationValues struct {
-	Title       string
+// EmailPasswordResetValues are the values used for the password reset template.
+type EmailPasswordResetValues struct {
 	DisplayName string
 	RemoteIP    string
 	LinkURL     string

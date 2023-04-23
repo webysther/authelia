@@ -17,17 +17,23 @@ type logoutResponseBody struct {
 
 // LogoutPOST is the handler logging out the user attached to the given cookie.
 func LogoutPOST(ctx *middlewares.AutheliaCtx) {
-	body := logoutBody{}
+	var (
+		body logoutBody
+		err  error
+	)
+
 	responseBody := logoutResponseBody{SafeTargetURL: false}
 
-	err := ctx.ParseBody(&body)
-	if err != nil {
-		ctx.Error(fmt.Errorf("unable to parse body during logout: %s", err), messageOperationFailed)
+	if err = ctx.ParseBody(&body); err != nil {
+		ctx.Error(fmt.Errorf("unable to parse body during logout: %w", err), messageOperationFailed)
+
+		return
 	}
 
-	err = ctx.DestroySession()
-	if err != nil {
-		ctx.Error(fmt.Errorf("unable to destroy session during logout: %s", err), messageOperationFailed)
+	if err = ctx.DestroySession(); err != nil {
+		ctx.Error(fmt.Errorf("unable to destroy session during logout: %w", err), messageOperationFailed)
+
+		return
 	}
 
 	redirectionURL, err := url.ParseRequestURI(body.TargetURL)
@@ -39,8 +45,7 @@ func LogoutPOST(ctx *middlewares.AutheliaCtx) {
 		ctx.Logger.Debugf("Logout target url is %s, safe %t", body.TargetURL, responseBody.SafeTargetURL)
 	}
 
-	err = ctx.SetJSONBody(responseBody)
-	if err != nil {
-		ctx.Error(fmt.Errorf("unable to set body during logout: %s", err), messageOperationFailed)
+	if err = ctx.SetJSONBody(responseBody); err != nil {
+		ctx.Error(fmt.Errorf("unable to set body during logout: %w", err), messageOperationFailed)
 	}
 }

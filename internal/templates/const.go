@@ -7,8 +7,9 @@ const (
 
 // Template File Names.
 const (
-	TemplateNameEmailIdentityVerification = "IdentityVerification"
-	TemplateNameEmailEvent                = "Event"
+	TemplateNameEmailPasswordReset = "PasswordReset"
+	TemplateNameEmailEvent         = "Event"
+	TemplateNameOneTimePassword    = "OneTimePassword"
 
 	TemplateNameOIDCAuthorizeFormPost = "AuthorizeResponseFormPost.html"
 )
