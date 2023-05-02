@@ -21,10 +21,10 @@ body:
             - Bugs with third-party software.
             - Mistakes in the documentation.
             - Potential bugs where it is not somewhat clear that it's a bug with Authelia itself.
-        6. Please read the [Troubleshooting](https://www.authelia.com/r/troubleshooting) reference guide:
-            - Do not truncate any logs unless you are complying with the specific instructions in the [Logs](https://www.authelia.com/r/troubleshooting#logs) section.
-            - If you plan on sanitizing, removing, or adjusting any values for the logs or configuration files please read the [Sanitization](https://www.authelia.com/r/troubleshooting#sanitization) section.
-        7. Please consider including a [HTTP Archive File](https://www.authelia.com/r/har) if you're having redirection issues.
+        6. Please read the [Troubleshooting](https://www.authelia.com/r/tshoot) reference guide:
+            - Do not truncate any logs unless you are complying with the specific instructions in the [Logs](https://www.authelia.com/r/tshoot#logs) section.
+            - If you plan on sanitizing, removing, or adjusting any values for the logs or configuration files please read the [Sanitization](https://www.authelia.com/r/tshoot#sanitization) section.
+        7. Please consider including a [HTTP Archive File](https://www.authelia.com/r/tshoot#http-archive-file) if you're having redirection issues.
   - type: dropdown
     id: version
     attributes:
@@ -140,7 +140,7 @@ body:
     attributes:
       label: Logs (Authelia)
       description: |
-        Provide complete logs with the log level set to debug or trace. Complete means from application start until the issue occurring. This is clearly explained in the [Logs](https://www.authelia.com/r/troubleshooting#logs) section of the troubleshooting guide.
+        Provide complete logs with the log level set to debug or trace. Complete means from application start until the issue occurring. This is clearly explained in the [Logs](https://www.authelia.com/r/tshoot#logs) section of the troubleshooting guide.
 
         The template will automatically put this content in a code block so you can just paste it.
       render: shell
