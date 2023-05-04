@@ -23,6 +23,8 @@ authenticated user and can then order the reverse proxy to let the request pass 
 
 ## Configuration
 
+{{< config-alert-example >}}
+
 ```yaml
 session:
   name: authelia_session
@@ -49,6 +51,8 @@ scenarios like Kubernetes. Each provider has a note beside it indicating it is *
 providers are recommended.
 
 ## Options
+
+This section describes the individual configuration options.
 
 ### name
 
