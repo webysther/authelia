@@ -1,10 +1,33 @@
 package utils
 
 import (
+	"fmt"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
+
+func Test(t *testing.T) {
+	dir := t.TempDir()
+
+	fmt.Println(dir)
+
+	f, err := os.OpenFile(filepath.Join(dir, "example.txt"), os.O_CREATE|os.O_RDWR, 0600)
+
+	assert.NoError(t, err)
+
+	_ = f.Close()
+
+	of, err := NewOpenFile(filepath.Join(dir, "example.txt"), os.O_RDWR, 0600)
+
+	assert.NoError(t, err)
+
+	assert.NoError(t, of.WaitLock())
+
+	_, _ = fmt.Scanln()
+}
 
 func TestShouldCheckIfFileExists(t *testing.T) {
 	exists, err := FileExists("../../README.md")
