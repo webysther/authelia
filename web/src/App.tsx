@@ -19,7 +19,7 @@ import {
 import NotificationsContext from "@hooks/NotificationsContext";
 import { Notification } from "@models/Notifications";
 import * as themes from "@themes/index";
-import { getBasePath } from "@utils/BasePath";
+import { getBasePathSlash } from "@utils/BasePath";
 import {
     getDuoSelfEnrollment,
     getRememberMe,
@@ -84,7 +84,7 @@ const App: React.FC<Props> = (props: Props) => {
                 <Suspense fallback={<BaseLoadingPage message={"Loading"} />}>
                     <CssBaseline />
                     <NotificationsContext.Provider value={{ notification, setNotification }}>
-                        <Router basename={getBasePath()}>
+                        <Router basename={getBasePathSlash()}>
                             <NotificationBar onClose={() => setNotification(null)} />
                             <Routes>
                                 <Route path={ResetPasswordStep1Route} element={<ResetPasswordStep1 />} />
