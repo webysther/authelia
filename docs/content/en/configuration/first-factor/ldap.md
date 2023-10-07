@@ -181,14 +181,14 @@ Controls the TLS connection validation parameters for either StartTLS or the TLS
 
 Sets the base distinguished name container for all LDAP queries. If your LDAP domain is example.com this is usually
 `DC=example,DC=com`, however you can fine tune this to be more specific for example to only include objects inside the
-authelia OU: `OU=authelia,DC=example,DC=com`. This is prefixed with the [additional_users_dn](#additionalusersdn) for
-user searches and [additional_groups_dn](#additionalgroupsdn) for groups searches.
+authelia OU: `OU=authelia,DC=example,DC=com`. This is prefixed with the [additional_users_dn](#additional_users_dn) for
+user searches and [additional_groups_dn](#additional_groups_dn) for groups searches.
 
 ### additional_users_dn
 
 {{< confkey type="string" required="no" >}}
 
-Additional LDAP path to append to the [base_dn](#basedn) when searching for users. Useful if you want to restrict
+Additional LDAP path to append to the [base_dn](#base_dn) when searching for users. Useful if you want to restrict
 exactly which OU to get users from for either security or performance reasons. For example setting it to
 `OU=users,OU=people` with a base_dn set to `DC=example,DC=com` will mean user searches will occur in
 `OU=users,OU=people,DC=example,DC=com`.
@@ -209,7 +209,7 @@ The default value is dependent on the [implementation](#implementation), refer t
 
 {{< confkey type="string" required="no" >}}
 
-Similar to [additional_users_dn](#additionalusersdn) but it applies to group searches.
+Similar to [additional_users_dn](#additional_users_dn) but it applies to group searches.
 
 ### groups_filter
 
@@ -219,7 +219,7 @@ Similar to [additional_users_dn](#additionalusersdn) but it applies to group sea
 default negating this requirement. Refer to the [filter defaults](../../reference/guides/ldap.md#filter-defaults) for
 more information.*
 
-Similar to [users_filter](#usersfilter) but it applies to group searches. In order to include groups the member is not
+Similar to [users_filter](#users_filter) but it applies to group searches. In order to include groups the member is not
 a direct member of, but is a member of another group that is a member of those (i.e. recursive groups), you may try
 using the following filter which is currently only tested against Microsoft Active Directory:
 
@@ -343,7 +343,7 @@ The directory server attribute that is used by Authelia to determine the group n
 
 ## Refresh Interval
 
-It's recommended you either use the default [refresh interval](introduction.md#refreshinterval) or configure this to
+It's recommended you either use the default [refresh interval](introduction.md#refresh_interval) or configure this to
 a value low enough to refresh the user groups and status (deleted, disabled, etc) to adequately secure your environment.
 
 ## Important notes

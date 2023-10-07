@@ -75,7 +75,7 @@ will be: `https://example.com/.well-known/webfinger/?resource=acct:user@example.
 ### Authelia
 
 The following YAML configuration is an example __Authelia__
-[client configuration](../../../configuration/identity-providers/open-id-connect.md#clients) for use with [Tailscale] which
+[client configuration](../../../configuration/identity-providers/openid-connect/clients.md) for use with [Tailscale] which
 will operate with the above example:
 
 ```yaml

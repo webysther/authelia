@@ -153,7 +153,7 @@ In addition as tokens can be manually revoked using the Revocation Endpoint in a
 revoked due to known compromise; the revocation will take place much faster.
 
 Users who still desire or have an application that requires the Access Token is a JWT should configure the
-[access_token_signed_response_alg](../../configuration/identity-providers/openid-connect/clients.md#accesstokensignedresponsealg)
+[access_token_signed_response_alg](../../configuration/identity-providers/openid-connect/clients.md#access_token_signed_response_alg)
 client configuration option.
 
 ## Solutions

@@ -61,7 +61,7 @@ by Authelia from others.
 
 ### algorithm
 
-{{< confkey type="string" default="sha1" required="no" >}}
+{{< confkey type="string" default="SHA1" required="no" >}}
 
 *__Important Note:__ Many TOTP applications do not support this option. It is strongly advised you find out which
 applications your users use and test them before changing this option. It is insufficient to test that the application
@@ -74,9 +74,9 @@ The algorithm used for the TOTP key.
 
 Possible Values (case-insensitive):
 
-* `sha1`
-* `sha256`
-* `sha512`
+* `SHA1`
+* `SHA256`
+* `SHA512`
 
 Changing this value only affects newly registered TOTP keys. See the [Registration](#registration) section for more
 information.
@@ -164,7 +164,7 @@ check the clients.
 
 ## Encryption
 
-The TOTP secret is [encrypted](../storage/introduction.md#encryptionkey) in the database in version 4.33.0 and above.
+The TOTP secret is [encrypted](../storage/introduction.md#encryption_key) in the database in version 4.33.0 and above.
 This is so a user having access to only the database cannot easily compromise your two-factor authentication method.
 
 This may be inconvenient for some users who wish to export TOTP keys from Authelia to other services. As such there is
