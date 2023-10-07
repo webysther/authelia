@@ -632,3 +632,7 @@ func (ctx *AutheliaCtx) GetClock() utils.Clock {
 func (ctx *AutheliaCtx) GetJWTWithTimeFuncOption() jwt.ParserOption {
 	return jwt.WithTimeFunc(ctx.Clock.Now)
 }
+
+func (ctx *AutheliaCtx) Log() *logrus.Entry {
+	return ctx.Logger
+}

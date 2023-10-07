@@ -158,7 +158,7 @@ See the [Implementation Guide](../../reference/guides/ldap.md#implementation-gui
 
 ### timeout
 
-{{< confkey type="duration" default="5s" required="no" >}}
+{{< confkey type="duration" default="5 seconds" required="no" >}}
 {{< ref-common ref="duration" description="Common Syntax: Duration" text="This option uses a common syntax. " >}}
 
 The timeout for dialing an LDAP connection.

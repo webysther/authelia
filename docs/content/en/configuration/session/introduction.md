@@ -95,21 +95,21 @@ The default `same_site` value for all `cookies` configurations.
 
 ### inactivity
 
-{{< confkey type="duration" default="5m" required="no" >}}
+{{< confkey type="duration" default="5 minutes" required="no" >}}
 {{< ref-common ref="duration" description="Common Syntax: Duration" text="This option uses a common syntax. " >}}
 
 The default `inactivity` value for all [cookies](#cookies) configurations.
 
 ### expiration
 
-{{< confkey type="duration" default="1h" required="no" >}}
+{{< confkey type="duration" default="1 hour" required="no" >}}
 {{< ref-common ref="duration" description="Common Syntax: Duration" text="This option uses a common syntax. " >}}
 
 The default `expiration` value for all [cookies](#cookies) configurations.
 
 ### remember_me
 
-{{< confkey type="duration" default="1M" required="no" >}}
+{{< confkey type="duration" default="1 month" required="no" >}}
 {{< ref-common ref="duration" description="Common Syntax: Duration" text="This option uses a common syntax. " >}}
 
 The default `remember_me` value for all [cookies](#cookies) configurations.

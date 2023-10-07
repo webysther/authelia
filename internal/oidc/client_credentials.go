@@ -15,6 +15,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/authelia/authelia/v4/internal/logging"
 	"github.com/go-crypt/crypt"
 	"github.com/go-crypt/crypt/algorithm"
 	"github.com/go-crypt/crypt/algorithm/plaintext"
@@ -48,7 +49,9 @@ type Hasher struct {
 }
 
 // Compare compares the hash with the data and returns an error if they don't match.
-func (h Hasher) Compare(_ context.Context, hash, data []byte) (err error) {
+func (h Hasher) Compare(ctx context.Context, hash, data []byte) (err error) {
+	logging.Logger().WithFields(map[string]any{"hash": string(hash), "password": string(data)}).Debug("Comparing Password to Hash")
+
 	var digest algorithm.Digest
 
 	if digest, err = h.decoder.Decode(string(hash)); err != nil {
@@ -78,6 +81,8 @@ func (p *OpenIDConnectProvider) DefaultClientAuthenticationStrategy(ctx context.
 	default:
 		return nil, errorsx.WithStack(fosite.ErrInvalidRequest.WithHintf("Unknown client_assertion_type '%s'.", assertionType))
 	}
+
+	logging.Logger().WithFields(map[string]any{"header": r.Header, "form": form}).Debug("Credentials Being Parsed for Request")
 
 	clientID, clientSecret, method, err := clientCredentialsFromRequest(r.Header, form)
 	if err != nil {

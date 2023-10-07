@@ -41,7 +41,7 @@ The number of failed login attempts before a user may be banned. Setting this op
 
 ### find_time
 
-{{< confkey type="duration" default="2m" required="no" >}}
+{{< confkey type="duration" default="2 minutes" required="no" >}}
 {{< ref-common ref="duration" description="Common Syntax: Duration" text="This option uses a common syntax. " >}}
 
 The period of time analyzed for failed attempts. For
@@ -50,7 +50,7 @@ example if you set `max_retries` to 3 and `find_time` to `2m` this means the use
 
 ### ban_time
 
-{{< confkey type="duration" default="5m" required="no" >}}
+{{< confkey type="duration" default="5 minutes" required="no" >}}
 
 *__Reference Note:__ This configuration option uses the [duration common syntax](../prologue/common.md#duration).
 Please see the [documentation](../prologue/common.md#duration) on this format for more information.*

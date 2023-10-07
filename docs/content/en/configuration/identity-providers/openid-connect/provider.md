@@ -346,7 +346,7 @@ When enabled all authorization requests must use the [Pushed Authorization Reque
 
 #### context_lifespan
 
-{{< confkey type="duration" default="5m" required="no" >}}
+{{< confkey type="duration" default="5 minutes" required="no" >}}
 
 The maximum amount of time between the [Pushed Authorization Requests] flow being initiated and the generated
 `request_uri` being utilized by a client.
@@ -403,19 +403,19 @@ utilize refresh tokens. For more information read this documentation about the [
 
 #### access_token
 
-{{< confkey type="duration" default="1h" required="no" >}}
+{{< confkey type="duration" default="1 hour" required="no" >}}
 
 The default maximum lifetime of an access token.
 
 #### authorize_code
 
-{{< confkey type="duration" default="1m" required="no" >}}
+{{< confkey type="duration" default="1 minute" required="no" >}}
 
 The default maximum lifetime of an authorize code.
 
 #### id_token
 
-{{< confkey type="duration" default="1h" required="no" >}}
+{{< confkey type="duration" default="1 hour" required="no" >}}
 
 The default maximum lifetime of an ID token.
 

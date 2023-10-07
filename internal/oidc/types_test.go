@@ -12,9 +12,11 @@ import (
 	"github.com/ory/fosite"
 	"github.com/ory/fosite/handler/openid"
 	fjwt "github.com/ory/fosite/token/jwt"
+	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/authelia/authelia/v4/internal/logging"
 	"github.com/authelia/authelia/v4/internal/model"
 	"github.com/authelia/authelia/v4/internal/oidc"
 	"github.com/authelia/authelia/v4/internal/utils"
@@ -252,6 +254,10 @@ func (m *TestContext) GetClock() utils.Clock {
 
 func (m *TestContext) GetJWTWithTimeFuncOption() jwt.ParserOption {
 	return jwt.WithTimeFunc(m.GetClock().Now)
+}
+
+func (m *TestContext) Log() *logrus.Entry {
+	return logging.Logger().WithField("test", true)
 }
 
 type TestCodeStrategy struct {

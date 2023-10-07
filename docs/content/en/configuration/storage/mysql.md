@@ -171,7 +171,7 @@ characters and the user password is changed to this value.
 
 ### timeout
 
-{{< confkey type="duration" default="5s" required="no" >}}
+{{< confkey type="duration" default="5 seconds" required="no" >}}
 {{< ref-common ref="duration" description="Common Syntax: Duration" text="This option uses a common syntax. " >}}
 
 The SQL connection timeout.

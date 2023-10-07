@@ -82,7 +82,7 @@ Available Options:
 
 ### timeout
 
-{{< confkey type="duration" default="60s" required="no" >}}
+{{< confkey type="duration" default="60 seconds" required="no" >}}
 {{< ref-common ref="duration" description="Common Syntax: Duration" text="This option uses a common syntax. " >}}
 
 This adjusts the requested timeout for a WebAuthn interaction.
