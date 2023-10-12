@@ -1,0 +1,1 @@
+import{j as o}from"./index.2cf54ca8.js";import{F as r,f as s}from"./portal.Authenticated.aec66e93.js";const a=function(e){return o.jsx(r,{icon:s,size:"4x",color:"red",className:"failure-icon"})};export{a as F};
