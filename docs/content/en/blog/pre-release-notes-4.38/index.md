@@ -3,7 +3,7 @@ title: "4.38: Pre-Release Notes"
 description: "Authelia 4.38 is just around the corner. This version has several additional features and improvements to existing features. In this blog post we'll discuss the new features and roughly what it means for users."
 lead: "Pre-Release Notes for 4.38"
 excerpt: "Authelia 4.38 is just around the corner. This version has several additional features and improvements to existing features. In this blog post we'll discuss the new features and roughly what it means for users."
-date: 2023-01-18T19:47:09+10:00
+date: 2023-01-21T00:18:00+11:00
 draft: false
 images: []
 categories: ["News", "Release Notes"]
@@ -44,6 +44,20 @@ The following contains information on getting access to the pre-production build
 _**Note:** We strongly recommend people who wish to try the beta builds make backups of their proxy configuration,
 Authelia configuration, and Authelia database prior to attempting to do so._
 
+### 4.38.0-beta3
+
+This includes most if not all final features. We are working on a few other useful features but it's unclear if time
+time will permit. We are seeking feedback in
+[GitHub Discussions](https://github.com/authelia/authelia/discussions/categories/pre-release-feedback) for those
+interested in being involved.
+
+Actual Builds:
+
+- Container Images:
+  - [docker.io/authelia/authelia:v4.38.0-beta3](https://hub.docker.com/layers/authelia/authelia/v4.38.0-beta3/images/sha256-0c44154ab726991debad0c1c1e8cb471f1d464ec2e16d1f0fe7db52accaa1908?context=explore)
+  - [ghcr.io/authelia/authelia:v4.38.0-beta3](https://github.com/orgs/authelia/packages/container/authelia/142239266?tag=v4.38.0-beta3)
+- [Binaries](https://buildkite.com/authelia/authelia/builds/24725#annotation-ctx-success)
+
 ### 4.38.0-beta2
 
 This is a quick release before we start merging the TOTP and WebAuthn improvements. Once these are merged another beta
@@ -75,7 +89,6 @@ Major Documentation Changes:
   - [Caddy](https://deploy-preview-5250--authelia-staging.netlify.app/integration/proxies/caddy/)
   - [Envoy](https://deploy-preview-5250--authelia-staging.netlify.app/integration/proxies/envoy/)
   - [HAProxy](https://deploy-preview-5250--authelia-staging.netlify.app/integration/proxies/haproxy/)
-  - [HAProxy](https://deploy-preview-5250--authelia-staging.netlify.app/integration/proxies/haproxy/)
   - [NGINX](https://deploy-preview-5250--authelia-staging.netlify.app/integration/proxies/nginx/)
   - [Traefik](https://deploy-preview-5250--authelia-staging.netlify.app/integration/proxies/traefik/)
 - [Kubernetes Integration](https://deploy-preview-5250--authelia-staging.netlify.app/integration/kubernetes/introduction/)
@@ -92,7 +105,7 @@ Notable Missing Features from this build:
   - Pushed Authorization Requests
   - Client Authentication Modes
   - Additional Client Validations
-- Multi-Device Webauthn
+- Multi-Device WebAuthn
 - Device Registration OTP
 
 Known Bugs:
@@ -202,7 +215,7 @@ Please see the [roadmap](../../roadmap/active/openid-connect.md) for more inform
 
 ##### Initial Implementation
 
-_**Important Note:** This feature at the time of this writing, will not work well with Webauthn. Steps are being taken
+_**Important Note:** This feature at the time of this writing, will not work well with WebAuthn. Steps are being taken
 to address this however it will not specifically delay the release of this feature._
 
 This release see's the initial implementation of multi-domain protection. Users will be able to configure more than a
@@ -218,14 +231,14 @@ NGINX/NGINX Proxy Manager/SWAG/HAProxy with the use of the new
 [Customizable Authorization Endpoints](#customizable-authorization-endpoints). This is important as it means you only
 need to configure a single middleware or helper to perform automatic redirection.
 
-## Webauthn
+## WebAuthn
 
-As part of our ongoing effort for comprehensive support for Webauthn we'll be introducing several important
+As part of our ongoing effort for comprehensive support for WebAuthn we'll be introducing several important
 features. Please see the [roadmap](../../roadmap/active/webauthn.md) for more information.
 
-##### Multiple Webauthn Credentials Per-User
+##### Multiple WebAuthn Credentials Per-User
 
-In this release we see full support for multiple Webauthn credentials. This is a fairly basic feature but getting the
+In this release we see full support for multiple WebAuthn credentials. This is a fairly basic feature but getting the
 frontend experience right is important to us. This is going to be supported via the
 [User Control Panel](#user-dashboard--control-panel).
 
