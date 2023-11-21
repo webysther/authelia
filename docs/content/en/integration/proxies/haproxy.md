@@ -203,8 +203,12 @@ frontend fe_http
     # Force `Authorization` header via query arg to /api/verify
     http-request lua.auth-request be_authelia /api/verify?auth=basic if protected-frontends-basic
 
+    # Respond protected-frontends with a forbidden message if forbidden in Authelia.
+    http-request deny if protected-frontends !{ var(txn.auth_response_successful) -m bool } { var(txn.auth_response_code) -m int 403 }
+
     # Redirect protected-frontends to Authelia if not authenticated
     http-request redirect location https://auth.example.com/?rd=%[var(req.scheme)]://%[base]%[var(req.questionmark)]%[query] if protected-frontends !{ var(txn.auth_response_successful) -m bool }
+
     # Send 401 and pass `WWW-Authenticate` header on protected-frontend-basic if not pre-authenticated
     http-request set-var(txn.auth) var(req.auth_response_header.www_authenticate) if protected-frontends-basic !{ var(txn.auth_response_successful) -m bool }
     http-response deny deny_status 401 hdr WWW-Authenticate %[var(txn.auth)] if { var(txn.host) -m reg -i ^(?i)(heimdall)\.example\.com } !{ var(txn.auth_response_successful) -m bool }
@@ -302,8 +306,13 @@ frontend fe_http
     # Force `Authorization` header via query arg to /api/verify
     http-request lua.auth-request be_authelia_proxy /api/verify?auth=basic if protected-frontends-basic
 
+    # Respond protected-frontends with a forbidden message if forbidden in Authelia.
+    http-request deny if protected-frontends !{ var(txn.auth_response_successful) -m bool } { var(txn.auth_response_code) -m int 403 }
+
     # Redirect protected-frontends to Authelia if not authenticated
     http-request redirect location https://auth.example.com/?rd=%[var(req.scheme)]://%[base]%[var(req.questionmark)]%[query] if protected-frontends !{ var(txn.auth_response_successful) -m bool }
+    # Send 401 and pass `WWW-Authenticate` header on protected-frontend-basic if not pre-authenticated
+
     # Send 401 and pass `WWW-Authenticate` header on protected-frontend-basic if not pre-authenticated
     http-request set-var(txn.auth) var(req.auth_response_header.www_authenticate) if protected-frontends-basic !{ var(txn.auth_response_successful) -m bool }
     http-response deny deny_status 401 hdr WWW-Authenticate %[var(txn.auth)] if { var(txn.host) -m reg -i ^(?i)(heimdall)\.example\.com } !{ var(txn.auth_response_successful) -m bool }
