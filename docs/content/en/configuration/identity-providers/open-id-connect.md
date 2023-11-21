@@ -481,8 +481,7 @@ their redirect URIs are as follows:
 {{< confkey type="list(string)" default="refresh_token, authorization_code" required="no" >}}
 
 A list of grant types this client can return. *It is recommended that this isn't configured at this time unless you
-know what you're doing*. Valid options are: `implicit`, `refresh_token`, `authorization_code`, `password`,
-`client_credentials`.
+know what you're doing*. Valid options are: `implicit`, `refresh_token`, `authorization_code`, `client_credentials`.
 
 #### response_types
 
