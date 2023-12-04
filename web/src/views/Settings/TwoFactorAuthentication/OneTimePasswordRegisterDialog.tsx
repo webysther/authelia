@@ -67,7 +67,7 @@ const OneTimePasswordRegisterDialog = function (props: Props) {
     const { t: translate } = useTranslation("settings");
 
     const styles = useStyles();
-    const { createErrorNotification } = useNotifications();
+    const { createSuccessNotification, createErrorNotification } = useNotifications();
 
     const [selected, setSelected] = useState<Options>({ algorithm: "", length: 6, period: 30 });
     const [defaults, setDefaults] = useState<Options | null>(null);
@@ -124,10 +124,17 @@ const OneTimePasswordRegisterDialog = function (props: Props) {
         setSuccess(true);
 
         setTimeout(() => {
+            createSuccessNotification(
+                translate("Successfully {{action}} the {{item}}", {
+                    action: translate("added"),
+                    item: translate("One-Time Password"),
+                }),
+            );
+
             props.setClosed();
             resetStates();
         }, 750);
-    }, [props, resetStates]);
+    }, [createSuccessNotification, props, resetStates, translate]);
 
     const handleOnClose = () => {
         if (!props.open) {

@@ -334,6 +334,10 @@ func (s *StandaloneSuite) TestTwoFactorTOTPScenario() {
 	suite.Run(s.T(), NewTwoFactorTOTPScenario())
 }
 
+func (s *StandaloneSuite) TestTwoFactorWebAuthnScenario() {
+	suite.Run(s.T(), NewTwoFactorWebAuthnScenario())
+}
+
 func (s *StandaloneSuite) TestBypassPolicyScenario() {
 	suite.Run(s.T(), NewBypassPolicyScenario())
 }

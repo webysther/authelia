@@ -115,6 +115,8 @@ func (rs *RodSession) doRegisterTOTP(t *testing.T, page *rod.Page, username stri
 
 	rs.doEnterOTP(t, page, passcode)
 
+	rs.verifyNotificationDisplayed(t, page, "Successfully added the One-Time Password.")
+
 	rs.SetOneTimePassword(username, credential)
 
 	require.NoError(t, page.WaitStable(time.Millisecond*100))
